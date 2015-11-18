@@ -8,7 +8,7 @@
 import scrapy
 
 
-class ScrapytocsvItem(scrapy.Item):
+class ScrapytocsvItems(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
 
