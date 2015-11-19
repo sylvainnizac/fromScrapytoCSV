@@ -28,16 +28,56 @@ class InitialSpider(scrapy.Spider):
         # parsing data, the encode() method prevents errors from french special chars
         for off in jsonresponse['offers']:
             item = ScrapytocsvItems()
-            item['offer'] = off['id']
-            item['title'] = off['title'].encode('utf-8')
-            item['country'] = off['country'].encode('utf-8')
-            item['location_name'] = off['city'].encode('utf-8')
-            item['postal_code'] = off['postal_code']
-            item['education_level'] = off['study_level'].encode('utf-8')
-            item['experience_level'] = off['experience'].encode('utf-8')
-            item['contract_type'] = off['contract_type'].encode('utf-8')
-            item['job_description'] = off['description'].encode('utf-8')
-            item['profile_description'] = off['requested_profile'].encode('utf-8')
+            try:
+                item['offer'] = off['id']
+            except:
+                item['offer'] = ""
+
+            try:
+                item['title'] = off['title'].encode('utf-8')
+            except:
+                item['title'] = ""
+
+            try:
+                item['country'] = off['country'].encode('utf-8')
+            except:
+                item['country'] = ""
+
+            try:
+                item['location_name'] = off['city'].encode('utf-8')
+            except:
+                item['location_name'] = ""
+
+            try:
+                item['postal_code'] = off['postal_code']
+            except:
+                item['postal_code'] = ""
+
+            try:
+                item['education_level'] = off['study_level'].encode('utf-8')
+            except:
+                item['education_level'] = ""
+
+            try:
+                item['experience_level'] = off['experience'].encode('utf-8')
+            except:
+                item['experience_level'] = ""
+
+            try:
+                item['contract_type'] = off['contract_type'].encode('utf-8')
+            except:
+                item['contract_type'] = ""
+
+            try:
+                item['job_description'] = off['description'].encode('utf-8')
+            except:
+                item['job_description'] = ""
+
+            try:
+                item['profile_description'] = off['requested_profile'].encode('utf-8')
+            except:
+                item['profile_description'] = ""
+
             items.append(item)
 
         back = {'offers' : items}
