@@ -39,32 +39,26 @@ class InitialSpiderJSON(scrapy.Spider):
 
         jsonresponse = json.loads(response.body)
 
-        filename = response.url.split("/")[-1] + '.html'
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-
-        item = ScrapytocsvItems()
-        #print type(jsonresponse)
-        #print type(jsonresponse['offers'])
         temp = jsonresponse['offers']
-        #print type(temp[0])
-        #print temp[0]
-        off = temp[0]
+        items = []
 
-        item['offer'] = off['id']
-        item['title'] = off['title']
-        item['country'] = off['country']
-        location_name = off['title']
-        postal_code = off['title']
-        education_level = off['title']
-        experience_level = off['title']
-        contract_type = off['title']
-        job_description = off['title']
-        profile_description = off['title']
+        for off in temp:
+            item = ScrapytocsvItems()
+            item['offer'] = off['id']
+            item['title'] = off['title'].encode('utf-8')
+            item['country'] = off['country'].encode('utf-8')
+            item['location_name'] = off['city'].encode('utf-8')
+            item['postal_code'] = off['postal_code']
+            item['education_level'] = off['study_level'].encode('utf-8')
+            item['experience_level'] = off['experience'].encode('utf-8')
+            item['contract_type'] = off['contract_type'].encode('utf-8')
+            item['job_description'] = off['description'].encode('utf-8')
+            item['profile_description'] = off['requested_profile'].encode('utf-8')
+            items.append(item)
 
-        #print offer, title, country
+        back = {'offers' : items}
 
-        return item
+        yield back
 
 
 

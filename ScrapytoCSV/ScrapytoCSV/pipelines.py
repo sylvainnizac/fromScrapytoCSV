@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
 import csv
 
 # Define your item pipelines here
@@ -16,8 +15,11 @@ class ScrapytocsvPipeline(object):
 
     def process_item(self, item, spider):
 
-        fieldnames = item.keys()
+        fieldslist = item['offers'][0]
+        fieldnames = fieldslist.keys()
+        print fieldslist.keys()
+
         writer = csv.DictWriter(self.file, fieldnames=fieldnames)
 
         writer.writeheader()
-        writer.writerow(item)
+        writer.writerows(item['offers'])
