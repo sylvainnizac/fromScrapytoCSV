@@ -5,44 +5,29 @@ from ScrapytoCSV.items import ScrapytocsvItems
 
 
 class InitialSpider(scrapy.Spider):
+    """
+    test spider on a single url, giving a json response
+    """
     name = "Initial"
-    allowed_domains = ["multiposting.fr"]
-    start_urls = (
-        'http://www.multiposting.fr/fr/a_propos/recrutement',
-    )
-
-    def parse(self, response):
-
-        filename = response.url.split("/")[-2] + '.html'
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-
-        print response
-
-        for sel in response.xpath('//ul[@class="jobs"]/li'):
-            title = sel.xpath('h3/text()').extract()
-            content = sel.xpath('p/text()').extract()
-            print 'test'
-            print title
-            print content
-            print 'test'
-
-
-class InitialSpiderJSON(scrapy.Spider):
-    name = "InitialJSON"
     allowed_domains = ["multiposting.fr"]
     start_urls = (
         'http://www.multiposting.fr/fr/get-job-list',
     )
 
     def parse(self, response):
+        """
+        parse the json data into a series of dicts
+        :param response: crawled data
+        :return:a dict containing the list of offers
+        """
+
 
         jsonresponse = json.loads(response.body)
 
-        temp = jsonresponse['offers']
         items = []
 
-        for off in temp:
+        # parsing data, the encode() method prevents errors from french special chars
+        for off in jsonresponse['offers']:
             item = ScrapytocsvItems()
             item['offer'] = off['id']
             item['title'] = off['title'].encode('utf-8')
