@@ -21,7 +21,6 @@ class InitialSpider(scrapy.Spider):
         :return:a dict containing the list of offers
         """
 
-
         jsonresponse = json.loads(response.body)
 
         items = []
@@ -43,7 +42,7 @@ class InitialSpider(scrapy.Spider):
 
         back = {'offers' : items}
 
-        yield back
+        return back
 
 
 
